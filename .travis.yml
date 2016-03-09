@@ -13,11 +13,14 @@ install:
   - export PATH=$TRAVIS_BUILD_DIR/.local/bin:$PATH
 
 before_script:
-  - cmake --version
   - mkdir build
   - cd build
-  - cmake ..
+  - export CXXFLAGS="--coverage"
+  - cmake -DCMAKE_BUILD_TYPE=Debug ..
 
 script:
   - make
   - ctest --output-on-failure
+
+after_script:
+  - ../.coveralls
