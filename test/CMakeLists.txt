@@ -12,23 +12,20 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-cmake_minimum_required(VERSION 3.4 FATAL_ERROR)
-project(Semver VERSION 0.1 LANGUAGES CXX)
-
-enable_testing()
-add_subdirectory(test)
-
-add_library(semver
-  include/semver/operator.hpp
-  include/semver/version_compare.hpp
-  src/operator.cpp
-  src/version_compare.cpp
+set(test_list
+  version_compare
   )
 
-target_include_directories(semver PUBLIC
-  include
+create_test_sourcelist(test_sources
+  main.cpp
+  ${test_list}
   )
 
-target_compile_features(semver PUBLIC
-  cxx_strong_enums
-  )
+add_executable(semver_test_driver ${test_sources})
+target_link_libraries(semver_test_driver PRIVATE semver)
+
+foreach(test IN LISTS test_list)
+  add_test(NAME semver.${test}
+    COMMAND $<TARGET_FILE:semver_test_driver> ${test}
+    )
+endforeach()
