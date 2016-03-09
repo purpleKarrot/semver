@@ -20,7 +20,32 @@ int version_compare(int, char**)
   using semver::Operator;
   using semver::version_compare;
 
-  BOOST_TEST(version_compare("1", "1", Operator::equal));
+  BOOST_TEST(version_compare("1.00123", "1.123", Operator::equal));
+  BOOST_TEST(version_compare("1.123", "1.00123", Operator::equal));
+
+  BOOST_TEST(version_compare("1.25", "1.24", Operator::equal) == false);
+  BOOST_TEST(version_compare("1.25", "1.25", Operator::equal) == true);
+  BOOST_TEST(version_compare("1.25", "1.26", Operator::equal) == false);
+
+  BOOST_TEST(version_compare("1.25", "1.24", Operator::less_than) == false);
+  BOOST_TEST(version_compare("1.25", "1.25", Operator::less_than) == false);
+  BOOST_TEST(version_compare("1.25", "1.26", Operator::less_than) == true);
+
+  BOOST_TEST(version_compare("1.25", "1.24", Operator::less_equal) == false);
+  BOOST_TEST(version_compare("1.25", "1.25", Operator::less_equal) == true);
+  BOOST_TEST(version_compare("1.25", "1.26", Operator::less_equal) == true);
+
+  BOOST_TEST(version_compare("1.25", "1.24", Operator::greater_than) == true);
+  BOOST_TEST(version_compare("1.25", "1.25", Operator::greater_than) == false);
+  BOOST_TEST(version_compare("1.25", "1.26", Operator::greater_than) == false);
+
+  BOOST_TEST(version_compare("1.25", "1.24", Operator::greater_equal) == true);
+  BOOST_TEST(version_compare("1.25", "1.25", Operator::greater_equal) == true);
+  BOOST_TEST(version_compare("1.25", "1.26", Operator::greater_equal) == false);
+
+  BOOST_TEST(version_compare("1.25", "1.24", Operator::not_equal) == true);
+  BOOST_TEST(version_compare("1.25", "1.25", Operator::not_equal) == false);
+  BOOST_TEST(version_compare("1.25", "1.26", Operator::not_equal) == true);
 
   return boost::report_errors();
 }
