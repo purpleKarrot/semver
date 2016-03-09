@@ -1,6 +1,11 @@
 language: cpp
 sudo: false
 
+addons:
+  apt:
+    packages:
+    - libboost-dev
+
 install:
   - CMAKE_URL="https://cmake.org/files/v3.4/cmake-3.4.3-Linux-x86_64.tar.gz"
   - mkdir .local

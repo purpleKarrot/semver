@@ -18,6 +18,8 @@ project(Semver VERSION 0.1 LANGUAGES CXX)
 enable_testing()
 add_subdirectory(test)
 
+find_package(Boost REQUIRED)
+
 add_library(semver
   include/semver/operator.hpp
   include/semver/version_compare.hpp
@@ -25,8 +27,11 @@ add_library(semver
   src/version_compare.cpp
   )
 
-target_include_directories(semver PUBLIC
-  include
+target_include_directories(semver
+  PUBLIC
+    include
+  PRIVATE
+    ${Boost_INCLUDE_DIRS}
   )
 
 target_compile_features(semver PUBLIC
