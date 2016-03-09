@@ -1,0 +1,12 @@
+language: cpp
+sudo: false
+
+before_script:
+  - cmake --version
+  - mkdir build
+  - cd build
+  - cmake ..
+
+script:
+  - make
+  - ctest --output-on-failure
